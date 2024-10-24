@@ -3,6 +3,7 @@ package org.example.springjdbc_demo.services.impl;
 import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.entities.UserEntity;
 import org.example.springjdbc_demo.mappers.entity_mapper.impl.UserMapper;
+import org.example.springjdbc_demo.models.UserModel;
 import org.example.springjdbc_demo.repos.impl.UserRepo;
 import org.example.springjdbc_demo.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +34,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public int save(UserEntity userEntity) {
-        return userRepo.save(userEntity);
+    public int save(UserModel userModel) {
+        return userRepo.save(userMapper.toEntity(userModel));
     }
 
     @Override
     public int delete(Long id) {
-        return 0;
+        return userRepo.delete(id);
     }
 }

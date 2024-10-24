@@ -5,5 +5,5 @@ import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.entities.UserEntity;
 import org.example.springjdbc_demo.models.UserModel;
 
-public interface IUserService extends IBaseService<UserDto, UserEntity, Long> {
+public interface IUserService extends IBaseService<UserDto, UserModel, Long> {
 }

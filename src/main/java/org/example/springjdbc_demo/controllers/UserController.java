@@ -2,6 +2,8 @@ package org.example.springjdbc_demo.controllers;
 
 import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.mappers.entity_mapper.impl.UserMapper;
+import org.example.springjdbc_demo.models.ApiResponse;
+import org.example.springjdbc_demo.models.UserModel;
 import org.example.springjdbc_demo.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,26 +18,57 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, UserMapper userMapper) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userMapper = userMapper;
-    }
-
-    @GetMapping("/all")
-    @ResponseBody
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<UserDto> getUserById(@RequestParam Long id) {
-        UserDto userDto = userService.getById(id);
-        return userDto != null
-                ? new ResponseEntity<>(userDto, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> getUser(@RequestParam(required = false) Long id) {
+        if (id != null) {
+            UserDto user = userService.getById(id);
+            return user != null
+                    ? new ResponseEntity<>(user, HttpStatus.OK)
+                    : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("User not found", null, HttpStatus.NOT_FOUND));
+        } else {
+            List<UserDto> users = userService.getAll();
+            return users != null && !users.isEmpty()
+                    ? new ResponseEntity<>(users, HttpStatus.OK)
+                    : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("No users fetched", null, HttpStatus.NOT_FOUND));
+        }
+    }
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
+        int result = userService.save(userModel);
+        return result == 1
+                ? ResponseEntity.ok(new ApiResponse<>("User created successfully", result, HttpStatus.OK))
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse<>("Failed to create user", result, HttpStatus.BAD_REQUEST));
+    }
+
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<?> updateUser(@RequestBody UserModel userModel) {
+        int result = userService.save(userModel);
+        return result == 2
+                ? ResponseEntity.ok(new ApiResponse<>("User updated successfully", result, HttpStatus.OK))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>("Failed to update user", result, HttpStatus.NOT_FOUND));
+    }
+
+    @DeleteMapping
+    @ResponseBody
+    public ResponseEntity<?> deleteUser(@RequestParam Long id) {
+        int result = userService.delete(id);
+        return result > 0
+                ? ResponseEntity.ok(new ApiResponse<>("User deleted successfully", result, HttpStatus.OK))
+                : ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>("Failed to delete user", result, HttpStatus.NOT_FOUND));
     }
 }

@@ -22,7 +22,7 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public List<UserEntity> getAll() {
-        String query = "select * from tbl_user";
+        String query = "select * from tbl_user where status = 1";
         return jdbcTemplate.query(query, new UserRowMapper());
     }
 
@@ -38,11 +38,26 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public int save(UserEntity userEntity) {
-        return 0;
+        boolean isExisting = getById(userEntity.getUserId()) != null;
+        if (isExisting) {
+            String query = "update tbl_user set username = ?, name = ?, status = ? where userId = ?";
+            jdbcTemplate.update(
+                    query,
+                    userEntity.getUsername(),
+                    userEntity.getName(),
+                    userEntity.getStatus(),
+                    userEntity.getUserId());
+            return 2;
+        } else {
+            String query = "insert into tbl_user (username, name, status) values (?, ?, ?)";
+            jdbcTemplate.update(query, userEntity.getUsername(), userEntity.getName(), userEntity.getStatus());
+            return 1;
+        }
     }
 
     @Override
     public int delete(Long id) {
-        return 0;
+        String query = "update tbl_user set status = 0 where userId = ?";
+        return jdbcTemplate.update(query, id);
     }
 }
