@@ -13,10 +13,11 @@ public class PostMapper implements IBaseEntityMapper<PostDto, PostEntity, PostMo
     @Override
     public PostDto toDto(PostEntity postEntity) {
         return PostDto.builder()
+                .postId(postEntity.getPostId())
                 .title(postEntity.getTitle())
                 .content(postEntity.getContent())
-                .commentId(postEntity.getCommentId())
                 .createdAt(postEntity.getCreatedAt().toLocalDateTime())
+                .status(postEntity.isStatus())
                 .build();
     }
 
@@ -26,8 +27,8 @@ public class PostMapper implements IBaseEntityMapper<PostDto, PostEntity, PostMo
                 .postId(postModel.getPostId())
                 .title(postModel.getTitle())
                 .content(postModel.getContent())
-                .commentId(postModel.getCommentId())
                 .createdAt(Timestamp.valueOf(postModel.getCreatedAt()))
+                .status(postModel.isStatus())
                 .build();
     }
 }

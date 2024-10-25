@@ -22,7 +22,6 @@ public class CommentMapper implements IBaseEntityMapper<CommentDto, CommentEntit
     @Override
     public CommentEntity toEntity(CommentModel commentModel) {
         return CommentEntity.builder()
-                .commentId(commentModel.getCommentId())
                 .userId(commentModel.getUserId())
                 .postId(commentModel.getPostId())
                 .userId(commentModel.getUserId())

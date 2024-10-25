@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .post {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .post h2 {
+            color: #007BFF;
+        }
+        .date {
+            font-size: 0.9em;
+            color: #888;
+        }
+        .content {
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        h3 {
+            color: #333;
+            margin-top: 30px;
+        }
+        .comment {
+            border-top: 1px solid #ddd;
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .comment strong {
+            color: #007BFF;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        textarea {
+            resize: vertical;
+            height: 80px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Post Details</h1>
+
+<div class="post">
+    <h2 th:text="${post.title}">Post Title</h2>
+    <p class="date" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Date</p>
+    <p class="content" th:text="${post.content}">Post Content</p>
+</div>
+
+<h3>Comments:</h3>
+<div th:each="userComment : ${post.comments}" class="comment">
+    <strong th:text="${userComment.name}">Name</strong>:
+    <span th:text="${userComment.comment}">Comment</span>
+</div>
+
+<form action="#" th:action="@{/posts/{postId}/comment(postId=${post.postId})}" method="post">
+    <textarea name="comment" placeholder="Add your comment here..." required></textarea>
+    <button type="submit">Submit Comment</button>
+</form>
+</body>
+</html>

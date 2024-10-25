@@ -14,6 +14,6 @@ public class PostEntity {
     private Long postId;
     private String title;
     private String content;
-    private Long commentId;
     private Timestamp createdAt;
+    private boolean status;
 }

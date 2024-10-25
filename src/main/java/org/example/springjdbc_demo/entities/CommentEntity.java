@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Builder
 @ToString
 public class CommentEntity {
-    private Long commentId;
     private Long userId;
     private Long postId;
     private String comment;

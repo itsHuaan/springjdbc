@@ -3,6 +3,7 @@ package org.example.springjdbc_demo.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -11,9 +12,10 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class PostDto {
-//    private Long postId;
+    private Long postId;
     private String title;
     private String content;
-    private Long commentId;
     private LocalDateTime createdAt;
+    private boolean status;
+    private List<UserWithCommentDto> comments;
 }

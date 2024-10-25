@@ -14,6 +14,6 @@ public class PostModel {
     private Long postId;
     private String title;
     private String content;
-    private Long commentId;
+    private boolean status;
     private LocalDateTime createdAt;
 }

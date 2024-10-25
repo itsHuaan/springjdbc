@@ -1,5 +1,6 @@
 package org.example.springjdbc_demo.repos.impl;
 
+import org.example.springjdbc_demo.dto.UserWithCommentDto;
 import org.example.springjdbc_demo.entities.UserEntity;
 import org.example.springjdbc_demo.mappers.entity_mapper.impl.UserMapper;
 import org.example.springjdbc_demo.mappers.row_mapper.UserRowMapper;
@@ -59,5 +60,16 @@ public class UserRepo implements IUserRepo {
     public int delete(Long id) {
         String query = "update tbl_user set status = 0 where userId = ?";
         return jdbcTemplate.update(query, id);
+    }
+
+    @Override
+    public List<UserWithCommentDto> getByPostId(Long postId) {
+        String query = "select u.username, u.name, c.comment from tbl_comment c join tbl_user u on c.userId = u.userId where c.postId = ?";
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
+            String username = rs.getString(1);
+            String name = rs.getString(2);
+            String comment = rs.getString(3);
+            return new UserWithCommentDto(username, name, comment);
+        }, postId);
     }
 }
