@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class UserDto {
-//    private Long userId;
+    private Long userId;
     private String username;
     private String name;
 //    private Boolean status;

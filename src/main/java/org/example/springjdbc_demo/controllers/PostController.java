@@ -1,8 +1,10 @@
 package org.example.springjdbc_demo.controllers;
 
 import org.example.springjdbc_demo.dto.PostDto;
+import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.models.ApiResponse;
 import org.example.springjdbc_demo.services.impl.PostService;
+import org.example.springjdbc_demo.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("api/post/v1")
 public class PostController {
     private final PostService postService;
+    private final UserService userService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -45,10 +50,13 @@ public class PostController {
     @GetMapping("/all")
     public String getAllPosts(Model model) {
         List<PostDto> posts = postService.getAll();
+        List<UserDto> users = userService.getAll();
         if (posts == null || posts.isEmpty()) {
             model.addAttribute("message", "No posts available.");
         } else {
             model.addAttribute("posts", posts);
+            model.addAttribute("users", users);
+            model.addAttribute("randomUUID", UUID.randomUUID().toString());
         }
         return "index";
     }
@@ -56,6 +64,7 @@ public class PostController {
     @GetMapping("/post-details")
     public String postDetails(@RequestParam(name = "id") Long postId, Model model){
         model.addAttribute("post", postService.getById(postId));
+        model.addAttribute("randomUUID", UUID.randomUUID().toString());
         return "post-details";
     }
 }

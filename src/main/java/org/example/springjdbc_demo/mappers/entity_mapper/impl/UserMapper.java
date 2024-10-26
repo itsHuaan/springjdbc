@@ -11,6 +11,7 @@ public class UserMapper implements IBaseEntityMapper<UserDto, UserEntity, UserMo
     @Override
     public UserDto toDto(UserEntity userEntity) {
         return UserDto.builder()
+                .userId(userEntity.getUserId())
                 .username(userEntity.getUsername())
                 .name(userEntity.getName())
                 .build();

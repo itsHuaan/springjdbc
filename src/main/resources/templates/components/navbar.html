@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .navbar {
+            background-color: #242526;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar div {
+            align-items: center;
+            display: flex;
+            width: 30%;
+        }
+
+        .navbar .first-col {
+            flex: 1;
+            justify-content: flex-start;
+        }
+
+        .navbar .second-col {
+            margin: 0 25px;
+            flex: 2;
+            justify-content: space-between;
+        }
+
+        .navbar .second-col a {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            color: #e4e6eb;
+            text-decoration: none;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .navbar .second-col a:hover {
+            border: 0 solid transparent;
+            border-radius: 10px;
+            background-color: #3a3b3c;
+            color: #1877f2;
+        }
+
+        .navbar .third-col {
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .navbar .third-col div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #3A3B3C;
+            border-radius: 50%;
+            color: #B0B3B8;
+            margin: 0 5px;
+        }
+
+        .navbar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+
+        .navbar input {
+            width: 300px;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background-color: #3a3b3c;
+            color: #e4e6eb;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="first-col">
+        <a href="all">
+            <img th:src="'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png'" alt="User profile picture"/>
+        </a>
+        <input type="text" placeholder="Search Facebook"/></div>
+    <div class="second-col"><a href="#"><i class="fas fa-home">
+    </i></a>
+        <a href="#"><i class="fas fa-tv">
+        </i></a>
+        <a href="#"><i class="fas fa-store">
+        </i></a>
+        <a href="#"><i class="fas fa-users">
+        </i></a>
+        <a href="#"><i class="fas fa-gamepad">
+        </i></a></div>
+    <div class="third-col">
+        <div>
+            <i class="fas fa-th">
+            </i>
+        </div>
+        <div>
+            <i class="fab fa-facebook-messenger">
+            </i>
+        </div>
+        <div>
+            <i class="fas fa-bell">
+            </i>
+        </div>
+        <img th:src="'https://api.samplefaces.com/face?width=1440'" class="profile" height="40" width="40"/>
+    </div>
+</div>
+</body>
+</html>

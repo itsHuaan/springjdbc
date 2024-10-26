@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 @ToString
 public class UserWithCommentDto {
+    private Long userId;
     private String username;
     private String name;
     private String comment;

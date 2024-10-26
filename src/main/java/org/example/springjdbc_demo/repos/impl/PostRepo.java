@@ -11,9 +11,9 @@ import java.util.List;
 
 @Repository
 public class PostRepo implements IPostRepo {
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public PostRepo(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -32,11 +32,29 @@ public class PostRepo implements IPostRepo {
 
     @Override
     public int save(PostEntity postEntity) {
-        return 0;
+        boolean isExisting = getById(postEntity.getPostId()) != null;
+        if (isExisting) {
+            String query = "update tbl_post set title = ?, content = ?, createdAt = ?, status = ? where postId = ?";
+            jdbcTemplate.update(query, new PostRowMapper(),
+                    postEntity.getTitle(),
+                    postEntity.getContent(),
+                    postEntity.getCreatedAt(),
+                    postEntity.getPostId());
+            return 2;
+        } else {
+            String query = "insert into tbl_post (title, content, createdAt, status) values (?, ?, ?, ?)";
+            jdbcTemplate.update(query, new PostRowMapper(),
+                    postEntity.getTitle(),
+                    postEntity.getContent(),
+                    postEntity.getCreatedAt());
+            return 1;
+        }
     }
 
     @Override
     public int delete(Long id) {
+        String query = "delete from tbl_post where postId = ?";
+        jdbcTemplate.update(query, new PostRowMapper(), id);
         return 0;
     }
 }

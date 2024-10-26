@@ -2,317 +2,381 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>All Posts</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>
+        Facebook
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #e9eff1;
+            font-family: 'Roboto', sans-serif;
+            background-color: #18191a;
+            color: #e4e6eb;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .navbar {
-            background-color: #4267B2;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .navbar .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-right: auto;
-        }
-
-        .navbar a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
-        .main-container {
-            display: flex;
-            max-width: 100%;
-            flex-grow: 1;
-            margin-top: 60px;
-            height: calc(100vh - 60px);
-        }
-
-        .sidebar {
-            width: 15%;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            height: 100%;
         }
 
-
-        .sidebar h3 {
-            margin-top: 0;
-            color: #4267B2;
-            font-size: 1.5em; /* Increase font size for headings */
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar li {
-            padding: 10px 0; /* Add padding for clickable areas */
+        .container {
             display: flex;
-            align-items: center; /* Center align items */
-            cursor: pointer; /* Change cursor to pointer */
-            transition: background-color 0.3s; /* Smooth background change */
+            height: 100vh;
+            justify-content: space-between;
         }
 
-        .sidebar li:hover {
-            background-color: #f0f0f0; /* Highlight on hover */
-        }
-
-        .sidebar .icon {
-            margin-right: 10px; /* Space between icon and text */
-        }
-
-        .content {
-            flex: 1;
-            padding: 10px;
-            margin: 0 10vh;
-            overflow: auto;
-            height: 100%;
-        }
-        .content::-webkit-scrollbar {
-            display: none;
-        }
-
-        .content {
-            -ms-overflow-style: none;
-        }
-
-        .content {
+        .sidebar, .contacts {
+            max-height: 100%;
+            width: 300px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
             scrollbar-width: none;
         }
 
-        h1 {
-            text-align: left;
-            color: #333;
-            margin-top: 0;
-            font-size: 2.5em;
-        }
-
-        .post-create-card {
-            background-color: #fff;
-            border-radius: 8px;
+        .main-content {
+            width: 50%;
+            background-color: #18191a;
             padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-create-card textarea {
             box-sizing: border-box;
-            width: 100%;
-            height: 100px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            resize: none;
+            overflow-y: auto;
         }
 
-        .post-create-card input {
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        .sidebar a i {
+            margin: 0 15px;
         }
 
-        .post-card {
-            background-color: #fff;
+        .sidebar a, .contacts a {
+            color: #e4e6eb;
+            text-decoration: none;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .sidebar a:hover, .contacts a:hover {
+            background-color: #3a3b3c;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .post-header {
+        .sidebar img, .contacts img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .sidebar .shortcuts img, .contacts .contacts-list img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .main-content .post {
+            background-color: #242526;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .main-content .post img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .main-content .post .post-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
         }
 
-        .profile-pic {
-            width: 50px;
-            height: 50px;
+        .main-content .post .post-header img {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            margin-right: 15px;
         }
 
-        .name {
-            font-weight: bold;
+        .main-content .post .post-header p {
+            margin: 5px 0;
+
+        }
+
+        .main-content .post .post-header .post-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin: 0 15px;
+            flex: 1;
+        }
+
+        .main-content .post .post-header .post-info .post-author {
+            font-weight: 500;
+        }
+
+        .main-content .post .post-header .post-info .post-time {
+            color: #b0b3b8;
+            font-size: 12px;
+        }
+
+        .main-content .post .post-content {
             margin-bottom: 10px;
-            color: #4267B2;
         }
 
-        .date {
-            font-size: 0.9em;
-            color: #999;
-            margin-left: auto;
+        .main-content .post .post-actions {
+            margin: 1vh 0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #3e4042;
+            border-bottom: 1px solid #3e4042;
         }
 
-        .post-content {
-            margin-top: 10px;
-            line-height: 1.6;
-            color: #333;
-            font-size: 1em;
+        .main-content .post .post-actions a {
+            color: #b0b3b8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
-        .post-info {
+        .main-content .post .post-actions a:hover {
+            color: #e4e6eb;
+        }
+
+        .main-content .post .post-actions a i {
+            margin-right: 5px;
+        }
+
+        .main-content .post .post-actions .action-btn {
+            cursor: pointer;
+        }
+
+        .main-content .stories {
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .main-content .stories .story {
+            width: 100px;
+            height: 170px;
+            background-color: #3a3b3c;
+            border-radius: 8px;
+            margin-right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .main-content .stories .story img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .main-content .stories .story .story-name {
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .main-content .status-update {
+            background-color: #242526;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
         }
 
-        .post-actions {
+        .main-content .status-update .status-content {
+            display: flex;
+        }
+
+        .main-content .status-update img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .main-content .status-update input {
+            flex: 1;
+            background-color: #3a3b3c;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: #e4e6eb;
+        }
+
+        .main-content .status-update input::placeholder {
+            color: #b0b3b8;
+        }
+
+        .main-content .status-update .status-actions {
+            margin-top: 2vh;
             display: flex;
             justify-content: space-around;
-            margin-top: 15px;
-            border-top: 1px solid #f0f0f0;
-            padding-top: 10px;
         }
 
-        .action-btn {
-            color: #4267B2;
-            font-size: 1em;
-            cursor: pointer;
+        .main-content .status-update .status-actions a {
+            color: #b0b3b8;
+            text-decoration: none;
             display: flex;
             align-items: center;
+            margin-left: 10px;
         }
 
-        .action-btn:hover {
-            color: #333;
+        .main-content .status-update .status-actions a:hover {
+            color: #e4e6eb;
         }
 
-        .submit-btn {
-            width: 100%;
-            background-color: #4267B2;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s;
-        }
-
-        .submit-btn:hover {
-            background-color: #365899; /* Darker shade on hover */
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        h2 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-
-        .icon {
+        .main-content .status-update .status-actions a i {
             margin-right: 5px;
         }
 
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-                align-items: center;
-            }
+        .post-activity-count {
+            display: flex;
+            margin: 5px 0;
+            justify-content: space-between;
+        }
 
-            .sidebar {
-                width: 90%;
-            }
-
-            .content {
-                margin: 10px 0;
-            }
+        .post-activity-count a {
+            all: unset;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-<div class="navbar">
-    <div class="logo">MyLogo</div>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-</div>
-
-<div class="main-container">
+<div th:insert="~{components/navbar.html}"></div>
+<div class="container">
     <div class="sidebar">
-        <h3>Directions</h3>
-        <ul>
-            <li><i class="fas fa-map-marker-alt icon"></i> Direction 1</li>
-            <li><i class="fas fa-map-marker-alt icon"></i> Direction 2</li>
-            <li><i class="fas fa-map-marker-alt icon"></i> Direction 3</li>
-            <li><i class="fas fa-map-marker-alt icon"></i> Direction 4</li>
-            <li><i class="fas fa-map-marker-alt icon"></i> Direction 5</li>
-        </ul>
+        <a href="#">
+            <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="User profile picture" height="40"
+                 width="40"/>
+            Đỗ Quang Huân
+        </a>
+        <a href="#">
+            <i class="fas fa-user-friends">
+            </i>
+            Friends
+        </a>
+        <a href="#">
+            <i class="fas fa-clock">
+            </i>
+            Memories
+        </a>
+        <a href="#">
+            <i class="fas fa-bookmark">
+            </i>
+            Saved
+        </a>
+        <a href="#">
+            <i class="fas fa-users">
+            </i>
+            Groups
+        </a>
+        <a href="#">
+            <i class="fas fa-video">
+            </i>
+            Video
+        </a>
+        <a href="#">
+            <i class="fas fa-store">
+            </i>
+            Marketplace
+        </a>
+        <a href="#">
+            <i class="fas fa-newspaper">
+            </i>
+            Feeds
+        </a>
+        <a href="#">
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+            See more
+        </a>
     </div>
-
-    <div class="content">
-        <div class="post-create-card">
-            <input placeholder="Title" id="Title">
-            <textarea placeholder="What's on your mind?" required></textarea>
-            <button class="submit-btn">Post</button>
-        </div>
-
-        <h3>All Posts</h3>
-        <div class="post-container" th:each="post : ${posts}">
-            <div class="post-card">
-                <div class="post-header">
-                    <img th:src="@{https://api.samplefaces.com/face?width=1440}" class="profile-pic"
-                         alt="User Profile Picture">
-                    <div class="post-info">
-                        <span class="name" th:text="${post.comments[0].name}">Name</span>
-                        <span class="date"
-                              th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Date</span>
-                    </div>
-                </div>
-                <a th:href="@{post-details(id=${post.postId})}">
-                    <h2 th:text="${post.title}">Post Title</h2>
-                    <p class="post-content" th:text="${post.content}">Post Content</p>
+    <div class="main-content">
+        <div class="status-update">
+            <div class="status-content">
+                <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="User profile picture" height="40"
+                     width="40"/>
+                <input placeholder="What's on your mind, Huân?" type="text"/>
+            </div>
+            <div class="status-actions">
+                <a href="#">
+                    <i class="fas fa-video">
+                    </i>
+                    Live video
                 </a>
-                <div class="post-actions">
-                    <span class="action-btn"><i class="fas fa-heart icon"></i> Like</span>
-                    <span class="action-btn"><i class="fas fa-comment-dots icon"></i> Comment</span>
-                    <span class="action-btn"><i class="fas fa-share icon"></i> Share</span>
+                <a href="#">
+                    <i class="fas fa-photo-video">
+                    </i>
+                    Photo/video
+                </a>
+                <a href="#">
+                    <i class="fas fa-smile">
+                    </i>
+                    Feeling/activity
+                </a>
+            </div>
+        </div>
+        <div class="stories">
+            <div class="story">
+                <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="Story profile picture" height="60"
+                     width="60"/>
+                <div class="story-name">
+                    Create story
                 </div>
             </div>
         </div>
+        <div class="post" th:each="post : ${posts}">
+            <div class="post-header">
+                <img th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${post.postId}"
+                     alt="User profile picture" height="40" width="40"/>
+                <div class="post-info">
+                    <div class="post-author">
+                        <span class="name" th:text="${post.comments[0].name}">Name</span>
+                    </div>
+                    <div class="post-time">
+                        <span class="date"
+                              th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Date</span>
+                        <i class="fas fa-globe-americas">
+                        </i>
+                    </div>
+                </div>
+                <a href="" style="all: unset; cursor: pointer;">
+                    <i class="fas fa-ellipsis-h">
+                    </i>
+                </a>
+            </div>
+            <div class="post-content">
+                <h2 th:text="${post.title}">Post Title</h2>
+                <p th:text="${post.content}">
+                    Post Content
+                </p>
+            </div>
+            <img th:src="@{|https://picsum.photos/1920/1080?random=${post.postId}|}"
+                 height="300"
+                 width="500"/>
+            <div class="post-activity-count">
+                <a href="#" class="reactions"></a>
+                <a th:href="@{post-details(id=${post.postId})}" class="comments"
+                   th:text="${#lists.size(post.comments)} + ' comments'">0 comments</a>
+            </div>
+            <div class="post-actions">
+                <div><i class="far fa-thumbs-up"></i> Like</div>
+                <div><i class="far fa-comment-alt"></i> Comment</div>
+                <div><i class="fas fa-share"></i> Share</div>
+            </div>
+        </div>
     </div>
-
-    <div class="sidebar">
-        <h3>Contact</h3>
-        <ul>
-            <li><i class="fas fa-phone icon"></i> Contact 1</li>
-            <li><i class="fas fa-phone icon"></i> Contact 2</li>
-            <li><i class="fas fa-phone icon"></i> Contact 3</li>
-            <li><i class="fas fa-phone icon"></i> Contact 4</li>
-            <li><i class="fas fa-phone icon"></i> Contact 5</li>
-        </ul>
+    <div class="contacts">
+        <h3>
+            Contacts
+        </h3>
+        <a href="#" th:each="user : ${users}">
+            <img th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${user.userId}"
+                 alt="Contact profile picture" height="40" width="40"/>
+            <span th:text="${user.name}"></span>
+        </a>
     </div>
 </div>
 </body>
