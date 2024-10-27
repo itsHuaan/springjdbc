@@ -13,7 +13,9 @@ public class CommentMapper implements IBaseEntityMapper<CommentDto, CommentEntit
     @Override
     public CommentDto toDto(CommentEntity commentEntity) {
         return CommentDto.builder()
+                .commentId(commentEntity.getCommentId())
                 .userId(commentEntity.getUserId())
+                .postId(commentEntity.getPostId())
                 .comment(commentEntity.getComment())
                 .createdAt(commentEntity.getCreatedAt().toLocalDateTime())
                 .build();
@@ -22,9 +24,9 @@ public class CommentMapper implements IBaseEntityMapper<CommentDto, CommentEntit
     @Override
     public CommentEntity toEntity(CommentModel commentModel) {
         return CommentEntity.builder()
+                .commentId(commentModel.getCommentId())
                 .userId(commentModel.getUserId())
                 .postId(commentModel.getPostId())
-                .userId(commentModel.getUserId())
                 .comment(commentModel.getComment())
                 .createdAt(Timestamp.valueOf(commentModel.getCreatedAt()))
                 .build();

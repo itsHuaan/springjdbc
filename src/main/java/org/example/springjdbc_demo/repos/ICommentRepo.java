@@ -7,5 +7,5 @@ import java.util.List;
 public interface ICommentRepo extends IBaseRepo<CommentEntity, Long> {
     List<CommentEntity> getByPostId(Long id);
     List<CommentEntity> getByUserId(Long id);
-    CommentEntity getSpecificComment(CommentEntity comment);
+    List<CommentEntity> getSpecificComment(Long postId, Long userId);
 }

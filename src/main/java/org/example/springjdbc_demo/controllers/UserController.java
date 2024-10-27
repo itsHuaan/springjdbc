@@ -30,13 +30,13 @@ public class UserController {
         if (id != null) {
             UserDto user = userService.getById(id);
             return user != null
-                    ? new ResponseEntity<>(user, HttpStatus.OK)
+                    ? ResponseEntity.ok(user)
                     : ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>("User not found", null, HttpStatus.NOT_FOUND));
         } else {
             List<UserDto> users = userService.getAll();
             return users != null && !users.isEmpty()
-                    ? new ResponseEntity<>(users, HttpStatus.OK)
+                    ? ResponseEntity.ok(users)
                     : ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ApiResponse<>("No users fetched", null, HttpStatus.NOT_FOUND));
         }

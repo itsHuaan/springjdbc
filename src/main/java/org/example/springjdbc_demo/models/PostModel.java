@@ -15,5 +15,5 @@ public class PostModel {
     private String title;
     private String content;
     private boolean status;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

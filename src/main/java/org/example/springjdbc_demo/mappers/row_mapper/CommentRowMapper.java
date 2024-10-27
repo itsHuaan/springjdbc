@@ -12,8 +12,9 @@ public class CommentRowMapper implements RowMapper<CommentEntity> {
         return new CommentEntity(
                 rs.getLong(1),
                 rs.getLong(2),
-                rs.getString(3),
-                rs.getTimestamp(4)
+                rs.getLong(3),
+                rs.getString(4),
+                rs.getTimestamp(5)
         );
     }
 }

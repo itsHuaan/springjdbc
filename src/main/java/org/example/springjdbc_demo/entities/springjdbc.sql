@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2024 at 11:53 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Oct 27, 2024 at 05:24 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tbl_comment` (
+  `commentId` bigint(20) NOT NULL,
   `userId` bigint(20) DEFAULT NULL,
   `postId` bigint(20) DEFAULT NULL,
   `comment` text DEFAULT NULL,
@@ -38,57 +39,61 @@ CREATE TABLE `tbl_comment` (
 -- Dumping data for table `tbl_comment`
 --
 
-INSERT INTO `tbl_comment` (`userId`, `postId`, `comment`, `createdAt`) VALUES
-(1, 1, 'Great post!', '2024-10-24 08:25:32'),
-(2, 1, 'Thanks for sharing!', '2024-10-24 08:25:32'),
-(3, 1, 'Interesting perspective.', '2024-10-24 08:25:32'),
-(4, 2, 'I learned a lot from this.', '2024-10-24 08:25:32'),
-(5, 2, 'Well explained!', '2024-10-24 08:25:32'),
-(6, 2, 'Can you elaborate more on this topic?', '2024-10-24 08:25:32'),
-(7, 3, 'I completely agree with your point.', '2024-10-24 08:25:32'),
-(8, 3, 'This is very helpful, thank you!', '2024-10-24 08:25:32'),
-(9, 4, 'Awesome content!', '2024-10-24 08:25:32'),
-(10, 4, 'What an insightful article.', '2024-10-24 08:25:32'),
-(11, 5, 'I love this!', '2024-10-24 08:25:32'),
-(12, 5, 'So much useful information.', '2024-10-24 08:25:32'),
-(13, 6, 'Thanks for the tips!', '2024-10-24 08:25:32'),
-(14, 6, 'Looking forward to more posts like this.', '2024-10-24 08:25:32'),
-(15, 7, 'This changed my perspective.', '2024-10-24 08:25:32'),
-(16, 7, 'Fantastic read!', '2024-10-24 08:25:32'),
-(17, 8, 'I appreciate your thoughts on this.', '2024-10-24 08:25:32'),
-(18, 8, 'Keep up the good work!', '2024-10-24 08:25:32'),
-(19, 1, 'Looking forward to your next post!', '2024-10-24 08:25:32'),
-(20, 2, 'You always write so well.', '2024-10-24 08:25:32'),
-(21, 3, 'Very informative, thanks!', '2024-10-24 08:25:32'),
-(22, 4, 'I love your writing style!', '2024-10-24 08:25:32'),
-(23, 5, 'This is so relatable.', '2024-10-24 08:25:32'),
-(24, 6, 'Well done!', '2024-10-24 08:25:32'),
-(25, 7, 'You hit the nail on the head.', '2024-10-24 08:25:32'),
-(26, 8, 'Excellent post!', '2024-10-24 08:25:32'),
-(27, 1, 'You have a talent for this.', '2024-10-24 08:25:32'),
-(28, 2, 'This was a great read!', '2024-10-24 08:25:32'),
-(29, 3, 'Very thought-provoking.', '2024-10-24 08:25:32'),
-(30, 4, 'I’m sharing this with my friends!', '2024-10-24 08:25:32'),
-(31, 5, 'Can’t wait to read more!', '2024-10-24 08:25:32'),
-(32, 6, 'Very well written.', '2024-10-24 08:25:32'),
-(33, 7, 'Your insights are always appreciated.', '2024-10-24 08:25:32'),
-(34, 8, 'Great to see your work again!', '2024-10-24 08:25:32'),
-(35, 1, 'A breath of fresh air.', '2024-10-24 08:25:32'),
-(36, 2, 'I love how you write!', '2024-10-24 08:25:32'),
-(37, 3, 'This is just what I needed to read.', '2024-10-24 08:25:32'),
-(38, 4, 'Thank you for sharing your thoughts.', '2024-10-24 08:25:32'),
-(39, 5, 'You make this topic so interesting.', '2024-10-24 08:25:32'),
-(40, 6, 'Fantastic insights!', '2024-10-24 08:25:32'),
-(41, 7, 'This post was a delight to read.', '2024-10-24 08:25:32'),
-(42, 8, 'Your passion shines through your writing.', '2024-10-24 08:25:32'),
-(43, 1, 'You inspire me to think differently.', '2024-10-24 08:25:32'),
-(44, 2, 'I can’t agree more!', '2024-10-24 08:25:32'),
-(45, 3, 'Such a wonderful post!', '2024-10-24 08:25:32'),
-(46, 4, 'I learned something new today.', '2024-10-24 08:25:32'),
-(47, 5, 'This is why I follow you.', '2024-10-24 08:25:32'),
-(48, 6, 'You have a gift!', '2024-10-24 08:25:32'),
-(49, 7, 'Great job!', '2024-10-24 08:25:32'),
-(50, 8, 'Your work is always worth reading.', '2024-10-24 08:25:32');
+INSERT INTO `tbl_comment` (`commentId`, `userId`, `postId`, `comment`, `createdAt`) VALUES
+(1, 1, 1, 'Great post!', '2024-10-27 09:13:39'),
+(2, 2, 1, 'Thanks for sharing!', '2024-10-27 09:13:39'),
+(3, 3, 1, 'Interesting perspective.', '2024-10-27 09:13:39'),
+(4, 4, 2, 'I learned a lot from this.', '2024-10-27 09:13:39'),
+(5, 5, 2, 'Well explained!', '2024-10-27 09:13:39'),
+(6, 6, 2, 'Can you elaborate more on this topic?', '2024-10-27 09:13:39'),
+(7, 7, 3, 'I completely agree with your point.', '2024-10-27 09:13:39'),
+(8, 8, 3, 'This is very helpful, thank you!', '2024-10-27 09:13:39'),
+(9, 9, 4, 'Awesome content!', '2024-10-27 09:13:39'),
+(10, 10, 4, 'What an insightful article.', '2024-10-27 09:13:39'),
+(11, 11, 5, 'I love this!', '2024-10-27 09:13:39'),
+(12, 12, 5, 'So much useful information.', '2024-10-27 09:13:39'),
+(13, 13, 6, 'Thanks for the tips!', '2024-10-27 09:13:39'),
+(14, 14, 6, 'Looking forward to more posts like this.', '2024-10-27 09:13:39'),
+(15, 15, 7, 'This changed my perspective.', '2024-10-27 09:13:39'),
+(16, 16, 7, 'Fantastic read!', '2024-10-27 09:13:39'),
+(17, 17, 8, 'I appreciate your thoughts on this.', '2024-10-27 09:13:39'),
+(18, 18, 8, 'Keep up the good work!', '2024-10-27 09:13:39'),
+(19, 19, 1, 'Looking forward to your next post!', '2024-10-27 09:13:39'),
+(20, 20, 2, 'You always write so well.', '2024-10-27 09:13:39'),
+(21, 21, 3, 'Very informative, thanks!', '2024-10-27 09:13:39'),
+(22, 22, 4, 'I love your writing style!', '2024-10-27 09:13:39'),
+(23, 23, 5, 'This is so relatable.', '2024-10-27 09:13:39'),
+(24, 24, 6, 'Well done!', '2024-10-27 09:13:39'),
+(25, 25, 7, 'You hit the nail on the head.', '2024-10-27 09:13:39'),
+(26, 26, 8, 'Excellent post!', '2024-10-27 09:13:39'),
+(27, 27, 1, 'You have a talent for this.', '2024-10-27 09:13:39'),
+(28, 28, 2, 'This was a great read!', '2024-10-27 09:13:39'),
+(29, 29, 3, 'Very thought-provoking.', '2024-10-27 09:13:39'),
+(30, 30, 4, 'I’m sharing this with my friends!', '2024-10-27 09:13:39'),
+(31, 31, 5, 'Can’t wait to read more!', '2024-10-27 09:13:39'),
+(32, 32, 6, 'Very well written.', '2024-10-27 09:13:39'),
+(33, 33, 7, 'Your insights are always appreciated.', '2024-10-27 09:13:39'),
+(34, 34, 8, 'Great to see your work again!', '2024-10-27 09:13:39'),
+(35, 35, 1, 'A breath of fresh air.', '2024-10-27 09:13:39'),
+(36, 36, 2, 'I love how you write!', '2024-10-27 09:13:39'),
+(37, 37, 3, 'This is just what I needed to read.', '2024-10-27 09:13:39'),
+(38, 38, 4, 'Thank you for sharing your thoughts.', '2024-10-27 09:13:39'),
+(39, 39, 5, 'You make this topic so interesting.', '2024-10-27 09:13:39'),
+(40, 40, 6, 'Fantastic insights!', '2024-10-27 09:13:39'),
+(41, 41, 7, 'This post was a delight to read.', '2024-10-27 09:13:39'),
+(42, 42, 8, 'Your passion shines through your writing.', '2024-10-27 09:13:39'),
+(43, 43, 1, 'You inspire me to think differently.', '2024-10-27 09:13:39'),
+(44, 44, 2, 'I can’t agree more!', '2024-10-27 09:13:39'),
+(45, 45, 3, 'Such a wonderful post!', '2024-10-27 09:13:39'),
+(46, 46, 4, 'I learned something new today.', '2024-10-27 09:13:39'),
+(47, 47, 5, 'This is why I follow you.', '2024-10-27 09:13:39'),
+(48, 48, 6, 'You have a gift!', '2024-10-27 09:13:39'),
+(49, 49, 7, 'Great job!', '2024-10-27 09:13:39'),
+(50, 50, 8, 'Your work is always worth reading.', '2024-10-27 09:13:39'),
+(51, 51, 7, 'Hi, long time no see', '2024-10-27 15:26:54'),
+(58, 17, 7, 'test2', '2024-10-27 14:11:36'),
+(59, 44, 7, 'This is fantastic', '2024-10-27 14:13:14'),
+(60, 44, 7, 'This is fantastic!!!!!', '2024-10-27 14:14:46');
 
 -- --------------------------------------------------------
 
@@ -208,8 +213,9 @@ INSERT INTO `tbl_user` (`userId`, `username`, `name`, `status`) VALUES
 -- Indexes for table `tbl_comment`
 --
 ALTER TABLE `tbl_comment`
-  ADD UNIQUE KEY `userId` (`userId`),
-  ADD KEY `postId` (`postId`);
+  ADD PRIMARY KEY (`commentId`),
+  ADD KEY `postId` (`postId`),
+  ADD KEY `constraint_name` (`userId`);
 
 --
 -- Indexes for table `tbl_employee`
@@ -232,6 +238,12 @@ ALTER TABLE `tbl_user`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `tbl_comment`
+--
+ALTER TABLE `tbl_comment`
+  MODIFY `commentId` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `tbl_employee`
@@ -259,8 +271,8 @@ ALTER TABLE `tbl_user`
 -- Constraints for table `tbl_comment`
 --
 ALTER TABLE `tbl_comment`
-  ADD CONSTRAINT `tbl_comment_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `tbl_post` (`postId`),
-  ADD CONSTRAINT `tbl_comment_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `tbl_user` (`userId`);
+  ADD CONSTRAINT `constraint_name` FOREIGN KEY (`userId`) REFERENCES `tbl_user` (`userId`),
+  ADD CONSTRAINT `tbl_comment_ibfk_1` FOREIGN KEY (`postId`) REFERENCES `tbl_post` (`postId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

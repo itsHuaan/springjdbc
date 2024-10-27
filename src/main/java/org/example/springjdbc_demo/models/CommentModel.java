@@ -15,5 +15,5 @@ public class CommentModel {
     private Long userId;
     private Long postId;
     private String comment;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

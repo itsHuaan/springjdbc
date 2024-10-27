@@ -27,17 +27,28 @@ public class CommentRepo implements ICommentRepo {
 
     @Override
     public CommentEntity getById(Long id) {
-        return null;
+        String query = "select * from tbl_comment where commentId = ?";
+        return jdbcTemplate.queryForObject(query, new CommentRowMapper(), id);
     }
 
     @Override
     public int save(CommentEntity commentEntity) {
-        return 0;
+        boolean isExisting = getById(commentEntity.getCommentId()) != null;
+        if (isExisting) {
+            String query = "update tbl_comment set comment = ? where commentId = ?";
+            jdbcTemplate.update(query, commentEntity.getComment(), commentEntity.getCommentId());
+            return 2;
+        } else {
+            String query = "insert into tbl_comment (userId, postId, comment) values (?, ?, ?)";
+            jdbcTemplate.update(query, commentEntity.getUserId(), commentEntity.getPostId(), commentEntity.getComment());
+            return 1;
+        }
     }
 
     @Override
     public int delete(Long id) {
-        return 0;
+        String query = "delete from tbl_comment where commentId = ?";
+        return jdbcTemplate.update(query, new JdbcTemplate(), id);
     }
 
     @Override
@@ -53,8 +64,8 @@ public class CommentRepo implements ICommentRepo {
     }
 
     @Override
-    public CommentEntity getSpecificComment(CommentEntity comment) {
+    public List<CommentEntity> getSpecificComment(Long postId, Long userId) {
         String query = "select * from tbl_comment where postId = ? and userId = ?";
-        return jdbcTemplate.queryForObject(query, new CommentRowMapper(), comment.getPostId(), comment.getUserId());
+        return jdbcTemplate.query(query, new CommentRowMapper(), postId, userId);
     }
 }
