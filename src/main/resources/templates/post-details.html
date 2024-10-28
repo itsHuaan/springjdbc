@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title th:text="${post.title}">
         Facebook Post
     </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
         body {
             background-color: #18191A;
@@ -15,7 +16,7 @@
         }
 
         .container {
-            width: 60%;
+            width: 50%;
             margin: 20px auto;
             background-color: #242526;
             border-radius: 8px;
@@ -64,7 +65,7 @@
             display: flex;
             justify-content: space-around;
             border-top: 1px solid #3e4042;
-            border-bottom: 1px solid #3e4042;
+            /*border-bottom: 1px solid #3e4042;*/
             padding: 10px;
             cursor: pointer;
         }
@@ -88,9 +89,16 @@
             margin-top: 10px;
         }
 
+        .comment-section {
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+        }
+
         .comment {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
             margin: 10px 0;
         }
 
@@ -99,12 +107,17 @@
             height: 32px;
         }
 
+        .comment-contents {
+            display: flex;
+            align-items: center;
+        }
+
         .comment-content {
             background-color: #3A3B3C;
             border-radius: 16px;
             padding: 8px 12px;
-            margin-left: 10px;
             color: #E4E6EB;
+            margin: 0 15px;
         }
 
         .comment-content .profile-name {
@@ -142,6 +155,7 @@
             all: unset;
             cursor: pointer;
         }
+
         .write-comment .submit-comment {
             background-color: #ffffff00;
             color: #3A3B3C;
@@ -152,17 +166,18 @@
         }
 
         .write-comment .submit-comment:hover {
-            background-color: #4B4D4F; /* Change color on hover */
+            background-color: #4B4D4F;
+            /* Change color on hover */
         }
-
     </style>
 </head>
+
 <body>
 <div th:insert="~{components/navbar.html}"></div>
 <div class="container">
     <div class="header">
         <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="Profile Picture" class="profile-pic"
-             height="40" width="40"/>
+             height="40" width="40" />
         <div class="post-author">
             <div class="profile-name">
                 <span th:text="${post.comments[0].name}"></span>
@@ -179,11 +194,11 @@
             <h3 th:text="${post.title}">Title</h3>
         </div>
         <div class="post-text">
-     <span th:text="${post.content}">Content
-     </span>
+                <span th:text="${post.content}">Content
+                </span>
         </div>
         <img th:src="@{|https://picsum.photos/2040/2048?random=${post.postId}|}" class="post-image" height="500"
-             width="500"/>
+             width="500" />
     </div>
     <div class="post-activity-count">
         <a href="#" class="reactions"></a>
@@ -209,26 +224,52 @@
     </div>
     <div class="comments-section">
         <div class="comment" th:each="userComment : ${post.comments}">
-            <img th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}" alt="Profile Picture"
-                 class="profile-pic" height="32" width="32"/>
-            <div class="comment-content">
-                <div class="profile-name" th:text="${userComment.name}">
-                    Name
+            <div class="comment-contents">
+                <img th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}"
+                     alt="Profile Picture" class="profile-pic" height="32" width="32" />
+                <div class="comment-content">
+                    <div class="profile-name" th:text="${userComment.name}">
+                        Name
+                    </div>
+                    <div class="comment-text">
+                        <span th:text="${userComment.comment}">Comment</span>
+                    </div>
                 </div>
-                <div class="comment-text">
-                    <span th:text="${userComment.comment}">Comment</span>
+            </div>
+            <div class="comment-reply">
+                <div class="reply" onclick="showReplyInput(this)">
+                    <a style="color: #B0B3B8; cursor: pointer; margin-left: 6vh;">Reply</a>
+                </div>
+                <div class="reply-input" style="display: none; margin-top: 10px;">
+                    <input type="text" placeholder="Write a reply..." class="reply-textbox"
+                           style="width: 100%; padding: 8px; border-radius: 8px; border: none; background-color: #3A3B3C; color: #E4E6EB;" />
+                    <button class="submit-reply"
+                            style="background-color: #4B4D4F; color: #E4E6EB; border: none; border-radius: 8px; padding: 8px 12px; cursor: pointer; margin-top: 5px;">
+                        Submit
+                    </button>
                 </div>
             </div>
         </div>
     </div>
     <div class="write-comment">
         <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="Profile Picture" class="profile-pic"
-             height="32" width="32"/>
-        <input placeholder="Write a comment..." type="text"/>
+             height="32" width="32" />
+        <input placeholder="Write a comment..." type="text" />
         <button type="button" class="submit-comment">
             <i class="fas fa-location-arrow"></i>
         </button>
     </div>
 </div>
+<script>
+    function showReplyInput(element) {
+        const replyInput = element.nextElementSibling;
+        if (replyInput.style.display === "none") {
+            replyInput.style.display = "flex";
+        } else {
+            replyInput.style.display = "none";
+        }
+    }
+</script>
 </body>
+
 </html>

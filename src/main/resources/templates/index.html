@@ -7,6 +7,7 @@
     </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -124,7 +125,7 @@
             display: flex;
             justify-content: space-around;
             border-top: 1px solid #3e4042;
-            border-bottom: 1px solid #3e4042;
+            /*border-bottom: 1px solid #3e4042;*/
             cursor: pointer;
         }
 
@@ -143,8 +144,20 @@
             margin-right: 5px;
         }
 
-        .main-content .post .post-actions .action-btn {
+        .main-content .post .post-actions div {
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        .main-content .post .post-actions div:hover {
+            border: 0 solid transparent;
+            border-radius: 5px;
+            background-color: #3a3b3c;
         }
 
         .main-content .stories {
@@ -356,17 +369,26 @@
                 </p>
             </div>
             <img th:src="@{|https://picsum.photos/1920/1080?random=${post.postId}|}"
-                 height="300"
+                 height="500"
                  width="500"/>
             <div class="post-activity-count">
-                <a href="#" class="reactions"></a>
+                <a href="#" class="reactions" th:text="${post.likes} + ' likes'">0 likes</a>
                 <a th:href="@{post-details(id=${post.postId})}" class="comments"
                    th:text="${#lists.size(post.comments)} + ' comments'">0 comments</a>
             </div>
             <div class="post-actions">
-                <div><i class="far fa-thumbs-up"></i> Like</div>
-                <div><i class="far fa-comment-alt"></i> Comment</div>
-                <div><i class="fas fa-share"></i> Share</div>
+                <div class="like-button" data-post-id="${post.postId}">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>Like</span>
+                </div>
+                <div>
+                    <i class="far fa-comment-alt"></i>
+                    <span>Comment</span>
+                </div>
+                <div>
+                    <i class="fas fa-share"></i>
+                    <span>Share</span>
+                </div>
             </div>
         </div>
     </div>
@@ -381,5 +403,26 @@
         </a>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('.main-content').on('click', '.like-button', function() {
+            var postId = $(this).data('post-id');
+            console.log("Liking post with ID:", postId);
+            $.ajax({
+                url: '/api/post/v1',
+                method: 'PATCH',
+                data: { id: postId },
+                success: function(response) {
+                    console.log("Response:", response);
+                    var likesCountElement = $(this).closest('.post').find('.reactions');
+                    likesCountElement.text(response.likes + ' likes');
+                }.bind(this),
+                error: function(xhr, status, error) {
+                    console.error('Error liking post:', error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

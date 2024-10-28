@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +44,7 @@ public class PostController {
                     .body(new ApiResponse<>("Post not found", null, HttpStatus.NOT_FOUND));
         }
     }
+
     @GetMapping("/all")
     public String getAllPosts(Model model) {
         List<PostDto> posts = postService.getAll();
@@ -62,9 +60,18 @@ public class PostController {
     }
 
     @GetMapping("/post-details")
-    public String postDetails(@RequestParam(name = "id") Long postId, Model model){
+    public String postDetails(@RequestParam(name = "id") Long postId, Model model) {
         model.addAttribute("post", postService.getById(postId));
         model.addAttribute("randomUUID", UUID.randomUUID().toString());
         return "post-details";
+    }
+
+    @PatchMapping
+    @ResponseBody
+    public ResponseEntity<?> updatePost(@RequestParam(required = false) Long id) {
+        return id == null
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponse<>("Post not found", null, HttpStatus.NOT_FOUND))
+                : ResponseEntity.ok(new ApiResponse<>("Added 1 like to the post", postService.dropALike(id), HttpStatus.OK));
     }
 }

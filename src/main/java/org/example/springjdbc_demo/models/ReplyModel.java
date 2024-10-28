@@ -1,9 +1,8 @@
-package org.example.springjdbc_demo.dto;
+package org.example.springjdbc_demo.models;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -11,11 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString
-public class CommentDto {
+public class ReplyModel {
+    private Long replyId;
     private Long commentId;
     private Long userId;
-    private Long postId;
-    private String comment;
+    private String reply;
     private LocalDateTime createdAt;
-    private List<ReplyDto> replies;
 }

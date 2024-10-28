@@ -13,7 +13,8 @@ public class PostRowMapper implements RowMapper<PostEntity> {
                 rs.getLong(1),
                 rs.getString(2),
                 rs.getString(3),
-                rs.getTimestamp(4),
-                rs.getBoolean(5));
+                rs.getInt(4),
+                rs.getTimestamp(5),
+                rs.getBoolean(6));
     }
 }

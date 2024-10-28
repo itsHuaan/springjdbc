@@ -10,11 +10,10 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @ToString
-public class PostEntity {
-    private Long postId;
-    private String title;
-    private String content;
-    private int likes;
+public class ReplyEntity {
+    private Long replyId;
+    private Long commentId;
+    private Long userId;
+    private String comment;
     private Timestamp createdAt;
-    private boolean status;
 }

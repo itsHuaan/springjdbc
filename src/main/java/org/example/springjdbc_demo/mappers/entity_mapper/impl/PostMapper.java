@@ -16,6 +16,7 @@ public class PostMapper implements IBaseEntityMapper<PostDto, PostEntity, PostMo
                 .postId(postEntity.getPostId())
                 .title(postEntity.getTitle())
                 .content(postEntity.getContent())
+                .likes(postEntity.getLikes())
                 .createdAt(postEntity.getCreatedAt().toLocalDateTime())
                 .status(postEntity.isStatus())
                 .build();
@@ -27,6 +28,7 @@ public class PostMapper implements IBaseEntityMapper<PostDto, PostEntity, PostMo
                 .postId(postModel.getPostId())
                 .title(postModel.getTitle())
                 .content(postModel.getContent())
+                .likes(postModel.getLikes())
                 .createdAt(Timestamp.valueOf(postModel.getCreatedAt()))
                 .status(postModel.isStatus())
                 .build();

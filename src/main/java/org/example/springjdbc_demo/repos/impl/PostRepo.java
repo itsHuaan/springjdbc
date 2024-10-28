@@ -57,4 +57,11 @@ public class PostRepo implements IPostRepo {
         jdbcTemplate.update(query, new PostRowMapper(), id);
         return 0;
     }
+
+    @Override
+    public int dropALike(Long postId) {
+        String query = "update tbl_post set likes = likes + 1 where postId = ?";
+        jdbcTemplate.update(query, postId);
+        return 3;
+    }
 }

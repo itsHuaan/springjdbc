@@ -15,6 +15,7 @@ public class PostDto {
     private Long postId;
     private String title;
     private String content;
+    private int likes;
     private LocalDateTime createdAt;
     private boolean status;
     private List<UserWithCommentDto> comments;

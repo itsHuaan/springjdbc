@@ -56,4 +56,9 @@ public class PostService implements IPostService {
     public int delete(Long id) {
         return 0;
     }
+
+    @Override
+    public int dropALike(Long id) {
+        return postRepo.dropALike(id);
+    }
 }

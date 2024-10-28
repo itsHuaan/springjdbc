@@ -14,6 +14,7 @@ public class PostModel {
     private Long postId;
     private String title;
     private String content;
+    private int likes;
     private boolean status;
     private LocalDateTime createdAt = LocalDateTime.now();
 }

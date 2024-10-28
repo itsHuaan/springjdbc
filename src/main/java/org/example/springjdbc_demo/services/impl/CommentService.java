@@ -1,9 +1,11 @@
 package org.example.springjdbc_demo.services.impl;
 
 import org.example.springjdbc_demo.dto.CommentDto;
+import org.example.springjdbc_demo.dto.ReplyDto;
 import org.example.springjdbc_demo.mappers.entity_mapper.impl.CommentMapper;
 import org.example.springjdbc_demo.models.CommentModel;
 import org.example.springjdbc_demo.repos.impl.CommentRepo;
+import org.example.springjdbc_demo.repos.impl.ReplyRepo;
 import org.example.springjdbc_demo.services.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +15,25 @@ import java.util.List;
 @Service
 public class CommentService implements ICommentService {
     private final CommentRepo commentRepo;
+    private final ReplyRepo replyRepo;
     private final CommentMapper commentMapper;
 
     @Autowired
-    public CommentService(CommentRepo commentRepo, CommentMapper commentMapper) {
+    public CommentService(CommentRepo commentRepo, ReplyRepo replyRepo, CommentMapper commentMapper) {
         this.commentRepo = commentRepo;
+        this.replyRepo = replyRepo;
         this.commentMapper = commentMapper;
     }
 
     @Override
     public List<CommentDto> getAll() {
-        return commentRepo.getAll().stream().map(commentMapper::toDto).toList();
+        return commentRepo.getAll().stream().map(commentEntity -> {
+                    List<ReplyDto> replies = replyRepo.getByCommentId(commentEntity.getCommentId());
+                    CommentDto commentDto = commentMapper.toDto(commentEntity);
+                    commentDto.setReplies(replies);
+                    return commentDto;
+                }
+        ).toList();
     }
 
     @Override
