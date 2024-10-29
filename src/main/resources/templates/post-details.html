@@ -6,6 +6,7 @@
         Facebook Post
     </title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             background-color: #18191A;
@@ -200,19 +201,23 @@
             resize: none;
         }
 
-        .reply-box .icons {
+        .icons {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .reply-box .icons i {
+        .icons i {
             color: #b9bbbe;
             font-size: 20px;
-            margin: 0 5px;
             cursor: pointer;
+            padding: 5px;
         }
 
+        .icons i:hover{
+            border-radius: 50%;
+            background-color: #4e4f50;
+        }
 
         .comment-input {
             display: flex;
@@ -239,19 +244,6 @@
             height: 60px;
             padding: 5px;
             resize: none;
-        }
-
-        .comment-box .icons {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .comment-box .icons i {
-            color: #b9bbbe;
-            font-size: 20px;
-            margin: 0 5px;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -307,7 +299,7 @@
         </div>
     </div>
     <div class="comment-section" id="comment-section">
-        <div class="comment" th:each="userComment : ${post.comments}" th:attr="id='comment-' + ${post.postId}">
+        <div class="comment" th:each="userComment : ${post.comments}" th:attr="id='comment-' + ${userComment.commentId}">
             <div class="comment-row">
                 <img class="profile-pic"
                      th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}"
@@ -357,7 +349,7 @@
                             <i class="far fa-smile"></i>
                             <i class="fas fa-camera"></i>
                         </div>
-                        <i class="fas fa-paper-plane"></i>
+                        <i class="fas fa-paper-plane" id="reply-button"></i>
                     </div>
                 </div>
             </div>
@@ -376,21 +368,28 @@
                         <i class="far fa-smile"></i>
                         <i class="fas fa-camera"></i>
                     </div>
-                    <i class="fas fa-paper-plane"></i>
+                    <i class="fas fa-paper-plane" id="comment-button"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    $(document).ready(function () {
+        $('#comment-section').on('click', '#reply-button', function () {
+            alert('Reply submitted!');
+        });
+    });
+    $(document).ready(function () {
+        $('#comment-section').on('click', '#comment-button', function () {
+            alert('Comment submitted!');
+        });
+    });
+
     function toggleReplyInput(element) {
         const replyInput = element.closest('.comment').querySelector('.reply-input');
         replyInput.style.display = replyInput.style.display === 'none' ? 'flex' : 'none';
         replyInput.querySelector('textarea').focus();
-    }
-
-    function submitReply() {
-        alert('Reply submitted!');
     }
 </script>
 </body>
