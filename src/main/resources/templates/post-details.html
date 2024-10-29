@@ -5,7 +5,7 @@
     <title th:text="${post.title}">
         Facebook Post
     </title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <style>
         body {
             background-color: #18191A;
@@ -65,7 +65,6 @@
             display: flex;
             justify-content: space-around;
             border-top: 1px solid #3e4042;
-            /*border-bottom: 1px solid #3e4042;*/
             padding: 10px;
             cursor: pointer;
         }
@@ -85,89 +84,174 @@
             margin-right: 5px;
         }
 
-        .comments-section {
-            margin-top: 10px;
+        .post-activity-count {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .post-activity-count a {
+            all: unset;
         }
 
         .comment-section {
-            display: flex;
-            flex-direction: column;
-            margin-left: 10px;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 20px auto;
+            padding: 10px;
         }
 
         .comment {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            margin: 10px 0;
+            margin-bottom: 15px;
         }
 
-        .comment .profile-pic {
-            width: 32px;
-            height: 32px;
-        }
-
-        .comment-contents {
+        .comment-row {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
         }
 
         .comment-content {
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
             background-color: #3A3B3C;
-            border-radius: 16px;
-            padding: 8px 12px;
-            color: #E4E6EB;
-            margin: 0 15px;
+            border-radius: 10px;
+            padding: 10px;
         }
 
-        .comment-content .profile-name {
-            font-size: 14px;
+        .comment-content .name {
             font-weight: bold;
+            color: #E4E6EB;
         }
 
-        .comment-content .comment-text {
-            font-size: 14px;
+        .comment-content .text {
+            margin-top: 5px;
+            color: #E4E6EB;
         }
 
-        .write-comment {
+        .comment-content {
+            margin-top: 5px;
+            color: #E4E6EB;
+        }
+
+        .actions {
+            display: flex;
+            color: #B0B3B8;
+            margin: 10px 50px;
+        }
+
+        .actions div {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .actions div:hover {
+            text-decoration: underline;
+        }
+
+        .replies {
+            margin-left: 50px;
+        }
+
+        .reply-input {
+            display: flex;
+            align-items: flex-start;
+            margin-left: 50px;
+        }
+
+        .profile-pic {
+            margin-right: 10px;
+        }
+
+        .profile-pic img {
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .reply-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: #3a3b3c;
+            border-radius: 10px;
+            padding: 10px;
+            flex-grow: 1;
+        }
+
+        .reply-box textarea {
+            flex-grow: 1;
+            background-color: #3a3b3c;
+            border: none;
+            color: #b9bbbe;
+            font-size: 16px;
+            outline: none;
+            height: 70px;
+            padding: 5px;
+            resize: none;
+        }
+
+        .reply-box .icons {
             display: flex;
             align-items: center;
-            margin-top: 10px;
-        }
-
-        .write-comment input {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 16px;
-            border: none;
-            background-color: #3A3B3C;
-            color: #E4E6EB;
-            margin-left: 10px;
-        }
-
-        .post-activity-count {
-            display: flex;
-            margin: 10px 0;
             justify-content: space-between;
         }
 
-        .post-activity-count a {
-            all: unset;
+        .reply-box .icons i {
+            color: #b9bbbe;
+            font-size: 20px;
+            margin: 0 5px;
             cursor: pointer;
         }
 
-        .write-comment .submit-comment {
-            background-color: #ffffff00;
-            color: #3A3B3C;
+
+        .comment-input {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .comment-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: #3a3b3c;
+            border-radius: 10px;
+            padding: 10px;
+            flex-grow: 1;
+        }
+
+        .comment-box textarea {
+            flex-grow: 1;
+            background-color: #3a3b3c;
             border: none;
-            border-radius: 16px;
-            padding: 10px 15px;
-            cursor: pointer;
+            color: #b9bbbe;
+            font-size: 16px;
+            outline: none;
+            height: 60px;
+            padding: 5px;
+            resize: none;
         }
 
-        .write-comment .submit-comment:hover {
-            background-color: #4B4D4F;
-            /* Change color on hover */
+        .comment-box .icons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .comment-box .icons i {
+            color: #b9bbbe;
+            font-size: 20px;
+            margin: 0 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -177,10 +261,10 @@
 <div class="container">
     <div class="header">
         <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="Profile Picture" class="profile-pic"
-             height="40" width="40" />
+             height="40" width="40"/>
         <div class="post-author">
             <div class="profile-name">
-                <span th:text="${post.comments[0].name}"></span>
+                <span th:text="${post.comments[0].name}">Name</span>
             </div>
             <div class="post-time">
                 <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Time</span>
@@ -198,10 +282,10 @@
                 </span>
         </div>
         <img th:src="@{|https://picsum.photos/2040/2048?random=${post.postId}|}" class="post-image" height="500"
-             width="500" />
+             width="500" alt=""/>
     </div>
     <div class="post-activity-count">
-        <a href="#" class="reactions"></a>
+        <a href="" class="reactions" th:text="'&#128077' + ${post.likes}">0 like</a>
         <a th:src="@{|https://picsum.photos/1920/1080?random=${post.postId}|}" class="comments"
            th:text="${#lists.size(post.comments)} + ' comments'">0 comments</a>
     </div>
@@ -222,52 +306,91 @@
             Share
         </div>
     </div>
-    <div class="comments-section">
-        <div class="comment" th:each="userComment : ${post.comments}">
-            <div class="comment-contents">
-                <img th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}"
-                     alt="Profile Picture" class="profile-pic" height="32" width="32" />
+    <div class="comment-section" id="comment-section">
+        <div class="comment" th:each="userComment : ${post.comments}" th:attr="id='comment-' + ${post.postId}">
+            <div class="comment-row">
+                <img class="profile-pic"
+                     th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}"
+                     height="32"
+                     width="32" alt=""/>
                 <div class="comment-content">
-                    <div class="profile-name" th:text="${userComment.name}">
+                    <div class="name" th:text="${userComment.name}">
                         Name
                     </div>
-                    <div class="comment-text">
-                        <span th:text="${userComment.comment}">Comment</span>
+                    <div class="text">
+                        <span th:text="${userComment.comment}">Comment text</span>
                     </div>
                 </div>
             </div>
-            <div class="comment-reply">
-                <div class="reply" onclick="showReplyInput(this)">
-                    <a style="color: #B0B3B8; cursor: pointer; margin-left: 6vh;">Reply</a>
+            <div class="actions">
+                <div>Like</div>
+                <div onclick="toggleReplyInput(this)">Reply</div>
+                <div>Share</div>
+            </div>
+            <div class="replies" th:if="${userComment.replies}" th:each="userReply : ${userComment.replies}">
+                <div class="comment">
+                    <div class="comment-row">
+                        <img alt=""
+                             class="profile-pic"
+                             th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userReply.replyId}"
+                             height="32"
+                             width="32"/>
+                        <div class="comment-content">
+                            <div class="name" th:text="${userReply.name}">
+                                Name
+                            </div>
+                            <div class="text" th:text="${userReply.reply}">Comment text
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="reply-input" style="display: none; margin-top: 10px;">
-                    <input type="text" placeholder="Write a reply..." class="reply-textbox"
-                           style="width: 100%; padding: 8px; border-radius: 8px; border: none; background-color: #3A3B3C; color: #E4E6EB;" />
-                    <button class="submit-reply"
-                            style="background-color: #4B4D4F; color: #E4E6EB; border: none; border-radius: 8px; padding: 8px 12px; cursor: pointer; margin-top: 5px;">
-                        Submit
-                    </button>
+            </div>
+            <div class="reply-input" style="display: none;">
+                <div class="profile-pic">
+                    <img alt="User profile picture" width="32" height="32"
+                         th:src="'https://api.samplefaces.com/face?width=1440&n=1'"/>
+                </div>
+                <div class="reply-box">
+                    <textarea placeholder="Write a comment..."></textarea>
+                    <div class="icons">
+                        <div>
+                            <i class="far fa-smile"></i>
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="comment-input">
+            <div class="profile-pic">
+                <img alt="User profile picture"
+                     th:src="'https://api.samplefaces.com/face?width=1440&n=1'"/>
+            </div>
+            <div class="comment-box">
+                <textarea placeholder="Write a comment..."></textarea>
+                <div class="icons">
+                    <div>
+                        <i class="far fa-smile"></i>
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <i class="fas fa-paper-plane"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="write-comment">
-        <img th:src="'https://api.samplefaces.com/face?width=1440'" alt="Profile Picture" class="profile-pic"
-             height="32" width="32" />
-        <input placeholder="Write a comment..." type="text" />
-        <button type="button" class="submit-comment">
-            <i class="fas fa-location-arrow"></i>
-        </button>
-    </div>
 </div>
 <script>
-    function showReplyInput(element) {
-        const replyInput = element.nextElementSibling;
-        if (replyInput.style.display === "none") {
-            replyInput.style.display = "flex";
-        } else {
-            replyInput.style.display = "none";
-        }
+    function toggleReplyInput(element) {
+        const replyInput = element.closest('.comment').querySelector('.reply-input');
+        replyInput.style.display = replyInput.style.display === 'none' ? 'flex' : 'none';
+        replyInput.querySelector('textarea').focus();
+    }
+
+    function submitReply() {
+        alert('Reply submitted!');
     }
 </script>
 </body>

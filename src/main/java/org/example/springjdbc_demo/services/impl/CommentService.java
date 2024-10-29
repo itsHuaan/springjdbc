@@ -53,16 +53,31 @@ public class CommentService implements ICommentService {
 
     @Override
     public List<CommentDto> getByPostId(Long id) {
-        return commentRepo.getByPostId(id).stream().map(commentMapper::toDto).toList();
+        return commentRepo.getByPostId(id).stream().map(commentEntity -> {
+            List<ReplyDto> replies = replyRepo.getByCommentId(commentEntity.getCommentId());
+            CommentDto commentDto = commentMapper.toDto(commentEntity);
+            commentDto.setReplies(replies);
+            return commentDto;
+        }).toList();
     }
 
     @Override
     public List<CommentDto> getByUserId(Long id) {
-        return commentRepo.getByUserId(id).stream().map(commentMapper::toDto).toList();
+        return commentRepo.getByUserId(id).stream().map(commentEntity -> {
+            List<ReplyDto> replies = replyRepo.getByCommentId(commentEntity.getCommentId());
+            CommentDto commentDto = commentMapper.toDto(commentEntity);
+            commentDto.setReplies(replies);
+            return commentDto;
+        }).toList();
     }
 
     @Override
     public List<CommentDto> getSpecificComment(Long postId, Long userId) {
-        return commentRepo.getSpecificComment(postId, userId).stream().map(commentMapper::toDto).toList();
+        return commentRepo.getSpecificComment(postId, userId).stream().map(commentEntity -> {
+            List<ReplyDto> replies = replyRepo.getByCommentId(commentEntity.getCommentId());
+            CommentDto commentDto = commentMapper.toDto(commentEntity);
+            commentDto.setReplies(replies);
+            return commentDto;
+        }).toList();
     }
 }

@@ -3,6 +3,7 @@ package org.example.springjdbc_demo.controllers;
 import org.example.springjdbc_demo.dto.PostDto;
 import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.models.ApiResponse;
+import org.example.springjdbc_demo.services.impl.CommentService;
 import org.example.springjdbc_demo.services.impl.PostService;
 import org.example.springjdbc_demo.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -20,11 +22,13 @@ import java.util.UUID;
 public class PostController {
     private final PostService postService;
     private final UserService userService;
+    private final CommentService commentService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService) {
+    public PostController(PostService postService, UserService userService, CommentService commentService) {
         this.postService = postService;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -68,7 +72,8 @@ public class PostController {
 
     @PatchMapping
     @ResponseBody
-    public ResponseEntity<?> updatePost(@RequestParam(required = false) Long id) {
+    public ResponseEntity<?> updatePost(@RequestBody Map<String, Long> payload) {
+        Long id = payload.get("id");
         return id == null
                 ? ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiResponse<>("Post not found", null, HttpStatus.NOT_FOUND))

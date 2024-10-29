@@ -372,12 +372,12 @@
                  height="500"
                  width="500"/>
             <div class="post-activity-count">
-                <a href="#" class="reactions" th:text="${post.likes} + ' likes'">0 likes</a>
+                <a href="#" th:attr="id='likes-' + ${post.postId}" class="reactions" th:text="'&#128077' + ${post.likes}">&#128077 0</a>
                 <a th:href="@{post-details(id=${post.postId})}" class="comments"
                    th:text="${#lists.size(post.comments)} + ' comments'">0 comments</a>
             </div>
             <div class="post-actions">
-                <div class="like-button" data-post-id="${post.postId}">
+                <div class="like-button" id="like-button" th:attr="data-post-id=${post.postId}">
                     <i class="far fa-thumbs-up"></i>
                     <span>Like</span>
                 </div>
@@ -405,18 +405,16 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('.main-content').on('click', '.like-button', function() {
-            var postId = $(this).data('post-id');
-            console.log("Liking post with ID:", postId);
+        $('.main-content').on('click', '#like-button', function() {
+            let postId = $(this).data('post-id');
             $.ajax({
                 url: '/api/post/v1',
                 method: 'PATCH',
-                data: { id: postId },
-                success: function(response) {
-                    console.log("Response:", response);
-                    var likesCountElement = $(this).closest('.post').find('.reactions');
-                    likesCountElement.text(response.likes + ' likes');
-                }.bind(this),
+                contentType: 'application/json',
+                data: JSON.stringify({ id: postId }),
+                success: function() {
+                    $('#likes-' + postId).load(location.href + ' #likes-' + postId);
+                },
                 error: function(xhr, status, error) {
                     console.error('Error liking post:', error);
                 }

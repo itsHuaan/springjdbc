@@ -15,10 +15,12 @@ import java.util.List;
 @Repository
 public class UserRepo implements IUserRepo {
     private final JdbcTemplate jdbcTemplate;
+    private final ReplyRepo replyRepo;
 
     @Autowired
-    public UserRepo(JdbcTemplate jdbcTemplate) {
+    public UserRepo(JdbcTemplate jdbcTemplate, ReplyRepo replyRepo) {
         this.jdbcTemplate = jdbcTemplate;
+        this.replyRepo = replyRepo;
     }
 
     @Override
@@ -64,11 +66,17 @@ public class UserRepo implements IUserRepo {
 
     @Override
     public List<UserWithCommentDto> getByPostId(Long postId) {
-        String query = "select u.userId, u.username, u.name, c.comment from tbl_comment c join tbl_user u on c.userId = u.userId where c.postId = ?";
-        return jdbcTemplate.query(query, (rs, rowNum) -> new UserWithCommentDto(
+        String query = "select c.commentId, u.userId, u.username, u.name, c.comment from tbl_comment c join tbl_user u on c.userId = u.userId where c.postId = ?";
+        List<UserWithCommentDto> comments = jdbcTemplate.query(query, (rs, rowNum) -> new UserWithCommentDto(
                 rs.getLong(1),
-                rs.getString(2),
+                rs.getLong(2),
                 rs.getString(3),
-                rs.getString(4)), postId);
+                rs.getString(4),
+                rs.getString(5),
+                null), postId);
+        for (UserWithCommentDto comment : comments) {
+            comment.setReplies(replyRepo.getByCommentId(comment.getCommentId()));
+        }
+        return comments;
     }
 }
