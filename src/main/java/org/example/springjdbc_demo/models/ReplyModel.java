@@ -15,5 +15,5 @@ public class ReplyModel {
     private Long commentId;
     private Long userId;
     private String reply;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

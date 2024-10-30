@@ -63,22 +63,29 @@
         }
 
         .post-actions {
+            margin: 1vh 0;
+            padding: 10px;
             display: flex;
             justify-content: space-around;
             border-top: 1px solid #3e4042;
-            padding: 10px;
             cursor: pointer;
         }
 
         .post-actions div {
+            cursor: pointer;
             display: flex;
             align-items: center;
-            color: #B0B3B8;
-            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            font-size: 16px;
         }
 
         .post-actions div:hover {
             color: #E4E6EB;
+            border: 0 solid transparent;
+            border-radius: 5px;
+            background-color: #3a3b3c;
         }
 
         .post-actions i {
@@ -87,12 +94,17 @@
 
         .post-activity-count {
             display: flex;
+            margin: 5px 0;
             justify-content: space-between;
-            margin: 10px 0;
         }
 
         .post-activity-count a {
             all: unset;
+            cursor: pointer;
+        }
+
+        .post-activity-count a:hover {
+            text-decoration: underline;
         }
 
         .comment-section {
@@ -214,7 +226,8 @@
             padding: 5px;
         }
 
-        .icons i:hover{
+        .icons i:hover {
+            color: #1877f2;
             border-radius: 50%;
             background-color: #4e4f50;
         }
@@ -277,29 +290,28 @@
              width="500" alt=""/>
     </div>
     <div class="post-activity-count">
-        <a href="" class="reactions" th:text="'&#128077' + ${post.likes}">0 like</a>
+        <a href="#" th:attr="id='likes-' + ${post.postId}" class="reactions" th:text="'&#128077' + ${post.likes}">&#128077
+            0</a>
         <a th:src="@{|https://picsum.photos/1920/1080?random=${post.postId}|}" class="comments"
            th:text="${#lists.size(post.comments)} + ' comments'">0 comments</a>
     </div>
     <div class="post-actions">
-        <div>
-            <i class="far fa-thumbs-up">
-            </i>
-            Like
+        <div class="like-button" id="like-button" th:attr="data-post-id=${post.postId}">
+            <i class="far fa-thumbs-up"></i>
+            <span>Like</span>
+        </div>
+        <div onclick="goto('comment-input');">
+            <i class="far fa-comment-alt"></i>
+            <span>Comment</span>
         </div>
         <div>
-            <i class="far fa-comment-alt">
-            </i>
-            Comment
-        </div>
-        <div>
-            <i class="fas fa-share">
-            </i>
-            Share
+            <i class="fas fa-share"></i>
+            <span>Share</span>
         </div>
     </div>
     <div class="comment-section" id="comment-section">
-        <div class="comment" th:each="userComment : ${post.comments}" th:attr="id='comment-' + ${userComment.commentId}">
+        <div class="comment" th:each="userComment : ${post.comments}"
+             th:attr="id='comment-' + ${userComment.commentId}">
             <div class="comment-row">
                 <img class="profile-pic"
                      th:src="'https://api.samplefaces.com/face?width=1440&n=' + ${userComment.userId}"
@@ -347,7 +359,10 @@
                     <div class="icons">
                         <div>
                             <i class="far fa-smile"></i>
-                            <i class="fas fa-camera"></i>
+                            <label for="img-upload-reply">
+                                <i class="fas fa-camera"></i>
+                                <input type="file" accept="video/*,image/*,.gif" style="display: none" id="img-upload-reply">
+                            </label>
                         </div>
                         <i class="fas fa-paper-plane" id="reply-button"></i>
                     </div>
@@ -362,11 +377,14 @@
                      th:src="'https://api.samplefaces.com/face?width=1440&n=1'"/>
             </div>
             <div class="comment-box">
-                <textarea placeholder="Write a comment..."></textarea>
+                <textarea id="comment-input" placeholder="Write a comment..."></textarea>
                 <div class="icons">
                     <div>
                         <i class="far fa-smile"></i>
-                        <i class="fas fa-camera"></i>
+                        <label for="img-upload-comment">
+                            <i class="fas fa-camera"></i>
+                            <input type="file" accept="video/*,image/*,.gif" style="display: none" id="img-upload-comment">
+                        </label>
                     </div>
                     <i class="fas fa-paper-plane" id="comment-button"></i>
                 </div>
@@ -377,12 +395,78 @@
 <script>
     $(document).ready(function () {
         $('#comment-section').on('click', '#reply-button', function () {
-            alert('Reply submitted!');
+            const replyText = $(this).closest('.reply-input').find('textarea').val();
+            const userId = 1;
+            const commentId = $(this).closest('.comment').attr('id').split('-')[1];
+
+            if (replyText.trim() !== "") {
+                $.ajax({
+                    url: '/api/reply/v1',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        commentId: commentId,
+                        userId: userId,
+                        reply: replyText
+                    }),
+                    success: function () {
+                        $(this).closest('.reply-input').find('textarea').val('');
+                        $('#comment-' + commentId).load(location.href + ' #comment-' + commentId);
+                    }.bind(this),
+                    error: function (xhr, status, error) {
+                        console.error('Error submitting reply:', error);
+                    }
+                });
+            } else {
+                alert('Please enter a reply.');
+            }
         });
     });
     $(document).ready(function () {
         $('#comment-section').on('click', '#comment-button', function () {
-            alert('Comment submitted!');
+            const commentText = $('#comment-input').val();
+            const userId = 1;
+            const postId = $('.like-button').data('post-id');
+
+            if (commentText.trim() !== "") {
+                $.ajax({
+                    url: '/api/comment/v1',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        userId: userId,
+                        postId: postId,
+                        comment: commentText
+                    }),
+                    success: function () {
+                        $('#comment-input').val('');
+                        $('#comment-button').prop('disabled', true);
+                        $('#comment-section').load(location.href + ' #comment-section');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error submitting comment:', error);
+                    }
+                });
+            } else {
+                alert('Please enter a comment.');
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('.container').on('click', '#like-button', function () {
+            let postId = $(this).data('post-id');
+            $.ajax({
+                url: '/api/post/v1',
+                method: 'PATCH',
+                contentType: 'application/json',
+                data: JSON.stringify({id: postId}),
+                success: function () {
+                    $('#likes-' + postId).load(location.href + ' #likes-' + postId);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error liking post:', error);
+                }
+            });
         });
     });
 
@@ -390,6 +474,12 @@
         const replyInput = element.closest('.comment').querySelector('.reply-input');
         replyInput.style.display = replyInput.style.display === 'none' ? 'flex' : 'none';
         replyInput.querySelector('textarea').focus();
+    }
+
+    function goto(elementId) {
+        const element = document.getElementById(elementId);
+        element.scrollIntoView({behavior: "smooth"});
+        element.focus();
     }
 </script>
 </body>

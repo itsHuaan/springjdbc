@@ -14,6 +14,6 @@ public class ReplyEntity {
     private Long replyId;
     private Long commentId;
     private Long userId;
-    private String comment;
+    private String reply;
     private Timestamp createdAt;
 }

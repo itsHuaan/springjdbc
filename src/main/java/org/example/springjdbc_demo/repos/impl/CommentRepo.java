@@ -33,11 +33,17 @@ public class CommentRepo implements ICommentRepo {
 
     @Override
     public int save(CommentEntity commentEntity) {
-        boolean isExisting = getById(commentEntity.getCommentId()) != null;
-        if (isExisting) {
-            String query = "update tbl_comment set comment = ? where commentId = ?";
-            jdbcTemplate.update(query, commentEntity.getComment(), commentEntity.getCommentId());
-            return 2;
+        if (commentEntity.getCommentId() != null) {
+            boolean isExisting = getById(commentEntity.getCommentId()) != null;
+            if (isExisting) {
+                String query = "update tbl_comment set comment = ? where commentId = ?";
+                jdbcTemplate.update(query, commentEntity.getComment(), commentEntity.getCommentId());
+                return 2;
+            } else {
+                String query = "insert into tbl_comment (userId, postId, comment) values (?, ?, ?)";
+                jdbcTemplate.update(query, commentEntity.getUserId(), commentEntity.getPostId(), commentEntity.getComment());
+                return 1;
+            }
         } else {
             String query = "insert into tbl_comment (userId, postId, comment) values (?, ?, ?)";
             jdbcTemplate.update(query, commentEntity.getUserId(), commentEntity.getPostId(), commentEntity.getComment());

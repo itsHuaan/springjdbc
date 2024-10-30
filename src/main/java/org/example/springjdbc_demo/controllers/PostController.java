@@ -3,7 +3,6 @@ package org.example.springjdbc_demo.controllers;
 import org.example.springjdbc_demo.dto.PostDto;
 import org.example.springjdbc_demo.dto.UserDto;
 import org.example.springjdbc_demo.models.ApiResponse;
-import org.example.springjdbc_demo.services.impl.CommentService;
 import org.example.springjdbc_demo.services.impl.PostService;
 import org.example.springjdbc_demo.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,11 @@ import java.util.UUID;
 public class PostController {
     private final PostService postService;
     private final UserService userService;
-    private final CommentService commentService;
 
     @Autowired
-    public PostController(PostService postService, UserService userService, CommentService commentService) {
+    public PostController(PostService postService, UserService userService) {
         this.postService = postService;
         this.userService = userService;
-        this.commentService = commentService;
     }
 
     @GetMapping

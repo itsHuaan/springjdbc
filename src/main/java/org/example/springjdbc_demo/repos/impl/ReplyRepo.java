@@ -32,7 +32,8 @@ public class ReplyRepo implements IReplyRepo {
 
     @Override
     public int save(ReplyEntity replyEntity) {
-        return 0;
+        String query = "insert into tbl_reply (commentId, userId, reply) values (?, ?, ?)";
+        return jdbcTemplate.update(query, replyEntity.getCommentId(), replyEntity.getUserId(), replyEntity.getReply());
     }
 
     @Override

@@ -125,7 +125,6 @@
             display: flex;
             justify-content: space-around;
             border-top: 1px solid #3e4042;
-            /*border-bottom: 1px solid #3e4042;*/
             cursor: pointer;
         }
 
@@ -226,6 +225,8 @@
         }
 
         .main-content .status-update .status-actions {
+            border-top: 1px solid #3e4042;
+            padding-top: 2vh;
             margin-top: 2vh;
             display: flex;
             justify-content: space-around;
@@ -256,6 +257,10 @@
         .post-activity-count a {
             all: unset;
             cursor: pointer;
+        }
+
+        .post-activity-count a:hover{
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -381,7 +386,7 @@
                     <i class="far fa-thumbs-up"></i>
                     <span>Like</span>
                 </div>
-                <div>
+                <div th:onclick="|window.location.href='@{post-details(id=${post.postId})}';|">
                     <i class="far fa-comment-alt"></i>
                     <span>Comment</span>
                 </div>
